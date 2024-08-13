@@ -1,0 +1,94 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.imageSection {
+  flex: 1;
+  max-width: 50vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.movieImg {
+  width: 400px;
+  height: auto;
+  max-height: 70vh;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.movieTagline {
+  font-size: 1rem;
+  font-style: italic;
+  color: #777;
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.detailsSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.movieName {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+  color: #333;
+}
+
+.movieOverview {
+  font-size: 1rem;
+  color: #555;
+  margin: 1rem 0;
+}
+
+.movieRating,
+.movieGenres {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 1rem 0 0.5rem;
+  color: #333;
+}
+
+.movieGenresList {
+  font-size: 1rem;
+  color: #555;
+}
+
+.button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 0.5rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.button:focus {
+  outline: none;
+}

@@ -1,11 +1,11 @@
-import SearchedList from "../../components/SearchedList/SearchedList";
 import SearchMovie from "../../components/SearchMovie/SearchMovie";
+import MovieList from "../../components/MovieList/MovieList";
 
 const MoviesPage = ({ onSearch, filteredMovies }) => {
   return (
     <>
       <SearchMovie onSearch={onSearch} />
-      <SearchedList filteredMovies={filteredMovies} />
+      <MovieList movies={filteredMovies} />
     </>
   );
 };

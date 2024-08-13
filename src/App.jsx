@@ -1,32 +1,23 @@
-import "./App.css";
-
+import css from "./App.module.css";
+import { lazy, Suspense } from "react";
 import { Routes, Route, NavLink } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useParams } from "react";
 import {
   requestTrendingMovies,
   requestSearchedMovies,
-  requestFullPageMovies,
 } from "./services/apiService";
-import HomePage from "./pages/HomePage/HomePage";
-import MoviesPage from "./pages/MoviesPage/MoviesPage";
+const HomePage = lazy(() => import("./pages/HomePage/HomePage"));
+const MoviesPage = lazy(() => import("./pages/MoviesPage/MoviesPage"));
+const MovieDetailsPage = lazy(() =>
+  import("./pages/MovieDetailsPage/MovieDetailsPage")
+);
+const NotFoundPage = lazy(() => import("./pages/NotFoundPage/NotFoundPage"));
+import Loader from "./components/Loader/Loader";
 
 function App() {
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-
-  useEffect(() => {
-    const fetchTrendingData = async () => {
-      try {
-        const data = await requestTrendingMovies();
-        setTrendingMovies(data.results);
-      } catch (e) {
-        console.log(e.message);
-      }
-    };
-
-    fetchTrendingData();
-  }, []);
 
   useEffect(() => {
     if (!searchValue) return;
@@ -50,25 +41,46 @@ function App() {
     setFilteredMovies([]);
   };
 
+  useEffect(() => {
+    const fetchTrendingData = async () => {
+      try {
+        const data = await requestTrendingMovies();
+        setTrendingMovies(data.results);
+      } catch (e) {
+        console.log(e.message);
+      }
+    };
+
+    fetchTrendingData();
+  }, []);
+
   return (
-    <div>
-      <nav>
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/movies">Movies</NavLink>
-      </nav>
-      <Routes>
-        <Route
-          path="/"
-          element={<HomePage trendingMovies={trendingMovies} />}
-        />
-        <Route
-          path="/movies"
-          element={
-            <MoviesPage onSearch={onSearch} filteredMovies={filteredMovies} />
-          }
-        />
-      </Routes>
-    </div>
+    <Suspense fallback={<Loader />}>
+      <div>
+        <nav className={css.navigation}>
+          <NavLink className={css.navLink} to="/">
+            Home
+          </NavLink>
+          <NavLink className={css.navLink} to="/movies">
+            Movies
+          </NavLink>
+        </nav>
+        <Routes>
+          <Route
+            path="/"
+            element={<HomePage trendingMovies={trendingMovies} />}
+          />
+          <Route
+            path="/movies"
+            element={
+              <MoviesPage onSearch={onSearch} filteredMovies={filteredMovies} />
+            }
+          />
+          <Route path="/movies/:movieId/*" element={<MovieDetailsPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </div>
+    </Suspense>
   );
 }
 

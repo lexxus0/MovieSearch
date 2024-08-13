@@ -1,11 +1,12 @@
 import MovieList from "../../components/MovieList/MovieList";
+import css from "./HomePage.module.css";
 
 const HomePage = ({ trendingMovies }) => {
   return (
     <header>
       <div>
-        <h2>Trending today</h2>
-        <MovieList trendingMovies={trendingMovies} />
+        <h1 className={css.mainH}>Trending today</h1>
+        <MovieList movies={trendingMovies} />
       </div>
     </header>
   );
