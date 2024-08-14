@@ -1,25 +1,16 @@
-import {
-  useParams,
-  Routes,
-  Route,
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
+import { useParams, useNavigate, NavLink, Outlet } from "react-router-dom";
 import css from "./MovieDetailsPage.module.css";
 import { useState, useEffect } from "react";
 import { requestFullPageMovies } from "../../services/apiService";
-import MovieCast from "../../components/MovieCast/MovieCast";
 import Loader from "../../components/Loader/Loader";
-import MovieReviews from "../../components/MovieReviews/MovieReviews";
 import GoBackBtn from "../../components/GoBackBtn/GoBackBtn";
 import StarRating from "../../components/StarRating/StarRating";
+import clsx from "clsx";
 
 const MovieDetailsPage = () => {
   const { movieId } = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
   const [fullPageMovie, setFullPageMovie] = useState(null);
-  const [activeComponent, setActiveComponent] = useState("");
 
   const defImg = "https://dummyimage.com/200x300/cdcdcd/000.jpg&text=No+poster";
 
@@ -37,18 +28,6 @@ const MovieDetailsPage = () => {
 
     fetchMovieById();
   }, [movieId]);
-
-  const handleToggleComponent = (componentName) => {
-    const currentQuery = location.search;
-
-    if (activeComponent === componentName) {
-      setActiveComponent("");
-      navigate(`/movies/${movieId}?${currentQuery}`);
-    } else {
-      setActiveComponent(componentName);
-      navigate(`/movies/${movieId}/${componentName}?${currentQuery}`);
-    }
-  };
 
   if (!fullPageMovie) {
     return <Loader />;
@@ -86,28 +65,27 @@ const MovieDetailsPage = () => {
           </p>
         </div>
       </div>
-      <div>
-        <button
-          className={css.button}
-          onClick={() => handleToggleComponent("cast")}
+      <div className={css.navLinks}>
+        <NavLink
+          to="cast"
+          className={({ isActive }) =>
+            clsx(css.link, isActive && css.activeLink)
+          }
         >
-          {activeComponent === "cast" ? "Hide Cast" : "Movie Cast"}
-        </button>
-        <button
-          className={css.button}
-          onClick={() => handleToggleComponent("reviews")}
+          Movie Cast
+        </NavLink>
+        <NavLink
+          to="reviews"
+          className={({ isActive }) =>
+            clsx(css.link, isActive && css.activeLink)
+          }
         >
-          {activeComponent === "reviews" ? "Hide Reviews" : "Movie Reviews"}
-        </button>
+          Movie Reviews
+        </NavLink>
       </div>
-      <Routes>
-        {activeComponent === "cast" && (
-          <Route path="cast" element={<MovieCast movieId={movieId} />} />
-        )}
-        {activeComponent === "reviews" && (
-          <Route path="reviews" element={<MovieReviews movieId={movieId} />} />
-        )}
-      </Routes>
+      <div>
+        <Outlet context={{ movieId }} />
+      </div>
     </div>
   );
 };

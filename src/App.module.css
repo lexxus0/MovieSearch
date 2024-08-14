@@ -12,6 +12,10 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+[data-theme="dark"] .navigation {
+  background-color: yellow;
+}
+
 .navLink {
   color: #333;
   text-decoration: none;
@@ -26,6 +30,11 @@
 
 .navLink:hover,
 .navLink.active {
+  color: #007bff;
+  background-color: #e9ecef;
+}
+
+.activeLink {
   color: #007bff;
   background-color: #e9ecef;
 }

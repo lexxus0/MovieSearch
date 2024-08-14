@@ -10,6 +10,14 @@
     href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
     rel="stylesheet">
   <title>Films</title>
+  <script>
+    (function () {
+      const storedMode = localStorage.getItem('mode');
+      if (storedMode) {
+        document.documentElement.setAttribute('data-theme', storedMode);
+      }
+    })();
+  </script>
 </head>
 
 <body>

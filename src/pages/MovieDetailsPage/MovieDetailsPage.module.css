@@ -72,23 +72,32 @@
   color: #555;
 }
 
-.button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
+.navLinks {
+  display: flex;
+  gap: 1rem;
+  margin: 2rem 0;
+  justify-content: center;
+}
+
+.link {
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-decoration: none;
+  color: #555;
   padding: 0.5rem 1rem;
   border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-  margin: 0.5rem;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
 }
 
-.button:hover {
+.link:hover {
+  background-color: #007bff;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.activeLink {
   background-color: #0056b3;
-  transform: scale(1.05);
-}
-
-.button:focus {
-  outline: none;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }

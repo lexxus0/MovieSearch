@@ -5,10 +5,12 @@ import css from "./GoBackBtn.module.css";
 const GoBackBtn = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const query = location.search;
+
+  const query = new URLSearchParams(location.search).get("query");
+
   const goBackLink = location.state?.from
-    ? location.state.from + query
-    : `/movies${query}`;
+    ? `${location.state.from}${query ? `&query=${query}` : ""}`
+    : `/movies${query ? `?query=${query}` : ""}`;
 
   return (
     <button

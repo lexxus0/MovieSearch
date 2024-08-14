@@ -1,7 +1,8 @@
 import css from "./App.module.css";
 import { lazy, Suspense } from "react";
 import { Routes, Route, NavLink } from "react-router-dom";
-import { useEffect, useState, useParams } from "react";
+import { useEffect, useState } from "react";
+import clsx from "clsx";
 import {
   requestTrendingMovies,
   requestSearchedMovies,
@@ -11,8 +12,13 @@ const MoviesPage = lazy(() => import("./pages/MoviesPage/MoviesPage"));
 const MovieDetailsPage = lazy(() =>
   import("./pages/MovieDetailsPage/MovieDetailsPage")
 );
+const FavoritesPage = lazy(() => import("./pages/FavoritesPage/FavoritesPage"));
+
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage/NotFoundPage"));
 import Loader from "./components/Loader/Loader";
+import MovieReviews from "./components/MovieReviews/MovieReviews";
+import MovieCast from "./components/MovieCast/MovieCast";
+import ModeSwitch from "./components/ModeSwitch/ModeSwitch";
 
 function App() {
   const [trendingMovies, setTrendingMovies] = useState([]);
@@ -31,14 +37,11 @@ function App() {
       }
     };
 
-    if (searchValue) {
-      fetchMoviesBySearchQuery();
-    }
+    fetchMoviesBySearchQuery();
   }, [searchValue]);
 
   const onSearch = (searchedValue) => {
     setSearchValue(searchedValue);
-    setFilteredMovies([]);
   };
 
   useEffect(() => {
@@ -56,15 +59,36 @@ function App() {
 
   return (
     <Suspense fallback={<Loader />}>
-      <div>
+      <header>
         <nav className={css.navigation}>
-          <NavLink className={css.navLink} to="/">
+          <NavLink
+            className={({ isActive }) =>
+              clsx(css.navLink, isActive && css.activeLink)
+            }
+            to="/"
+          >
             Home
           </NavLink>
-          <NavLink className={css.navLink} to="/movies">
+          <NavLink
+            className={({ isActive }) =>
+              clsx(css.navLink, isActive && css.activeLink)
+            }
+            to="/movies"
+          >
             Movies
           </NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              clsx(css.navLink, isActive && css.activeLink)
+            }
+            to="/favorites"
+          >
+            Favorites
+          </NavLink>
+          <ModeSwitch />
         </nav>
+      </header>
+      <main>
         <Routes>
           <Route
             path="/"
@@ -76,10 +100,14 @@ function App() {
               <MoviesPage onSearch={onSearch} filteredMovies={filteredMovies} />
             }
           />
-          <Route path="/movies/:movieId/*" element={<MovieDetailsPage />} />
+          <Route path="/favorites" element={<FavoritesPage />} />
+          <Route path="/movies/:movieId/*" element={<MovieDetailsPage />}>
+            <Route path="cast" element={<MovieCast />} />
+            <Route path="reviews" element={<MovieReviews />} />
+          </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
-      </div>
+      </main>
     </Suspense>
   );
 }
