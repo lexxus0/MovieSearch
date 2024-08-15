@@ -4,18 +4,21 @@ import { useOutletContext } from "react-router-dom";
 
 import MovieCastItem from "../MovieCastItem/MovieCastItem";
 import css from "./MovieCast.module.css";
+import { useLanguage } from "../../context/LanguageContext";
 
 const MovieCast = ({}) => {
   const [cast, setCast] = useState([]);
   const [castMessage, setCastMessage] = useState(false);
   const { movieId } = useOutletContext();
 
+  const { t, language } = useLanguage();
+
   useEffect(() => {
     if (!movieId) return;
 
     const fetchMovieCast = async () => {
       try {
-        const data = await requestMovieCast(movieId);
+        const data = await requestMovieCast(movieId, language);
         setCast(data.cast);
         if (data.cast.length === 0) {
           setTimeout(() => {
@@ -27,7 +30,7 @@ const MovieCast = ({}) => {
       }
     };
     fetchMovieCast();
-  }, [movieId]);
+  }, [movieId, language]);
 
   return (
     <>
@@ -44,7 +47,7 @@ const MovieCast = ({}) => {
           ))}
         </ul>
       ) : (
-        castMessage && <p>No information about cast</p>
+        castMessage && <p>{t("CastMessage")}</p>
       )}
 
       <div></div>

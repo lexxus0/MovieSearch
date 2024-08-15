@@ -5,6 +5,7 @@ import useFavorites from "../../services/useFavorites";
 
 const MovieList = ({ movies }) => {
   const { favorites, addFavorite, removeFavorite, isFavorite } = useFavorites();
+
   if (!Array.isArray(movies) || movies.length === 0) {
     return null;
   }

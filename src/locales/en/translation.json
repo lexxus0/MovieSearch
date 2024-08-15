@@ -1,0 +1,17 @@
+{
+  "Trending Today": "Trending Today",
+  "Movies": "Movies",
+  "Favorites": "Favorites",
+  "SearchPlaceholder": "Search for movies...",
+  "ErrorMessage": "Something went wrong. Please try again later.",
+  "Favorite Movies": "Favorite Movies",
+  "FavoriteMessage": "No favorite movies added yet.",
+  "CastMessage": "No information about cast",
+  "ReviewsMessage": "There are no available reviews.",
+  "MovieCast": "Movie Cast",
+  "MovieReviews": "MovieReviews",
+  "LanguageSwitcher": {
+    "en": "English",
+    "ua": "Ukrainian"
+  }
+}

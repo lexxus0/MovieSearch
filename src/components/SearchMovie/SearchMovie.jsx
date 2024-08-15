@@ -1,10 +1,14 @@
+// TOAST
+
 import { Field, Formik, Form } from "formik";
 import { useNavigate } from "react-router-dom";
 import css from "./SearchMovie.module.css";
 import { MdSearch } from "react-icons/md";
+import { useLanguage } from "../../context/LanguageContext";
 
 const SearchMovie = ({ onSearch }) => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   return (
     <div className={css.searchHead}>
@@ -30,7 +34,7 @@ const SearchMovie = ({ onSearch }) => {
             name="searchedValue"
             autoComplete="on"
             autoFocus
-            placeholder="Search for movies"
+            placeholder={t("SearchPlaceholder")}
           />
           <button className={css.searchBtn} type="submit">
             <MdSearch />

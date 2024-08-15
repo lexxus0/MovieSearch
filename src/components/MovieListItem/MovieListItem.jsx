@@ -1,8 +1,8 @@
-// MovieListItem.js
 import React from "react";
 import css from "./MovieListItem.module.css";
 import StarRating from "../../components/StarRating/StarRating";
-import { AiOutlineStar, AiFillStar } from "react-icons/ai";
+import { FaBookmark, FaRegBookmark } from "react-icons/fa";
+
 const MovieListItem = ({
   title,
   averageVote,
@@ -24,8 +24,15 @@ const MovieListItem = ({
           }
           alt={title}
         />
-        <button className={css.favBtn} onClick={() => handleFavMovie(title)}>
-          {isFavorite ? <AiFillStar /> : <AiOutlineStar />}
+        <button
+          className={css.favBtn}
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            handleFavMovie();
+          }}
+        >
+          {isFavorite ? <FaBookmark /> : <FaRegBookmark />}
         </button>
       </div>
       <h4 className={css.h4}>{title}</h4>

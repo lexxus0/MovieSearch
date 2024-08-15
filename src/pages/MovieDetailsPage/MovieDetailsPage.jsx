@@ -5,9 +5,12 @@ import { requestFullPageMovies } from "../../services/apiService";
 import Loader from "../../components/Loader/Loader";
 import GoBackBtn from "../../components/GoBackBtn/GoBackBtn";
 import StarRating from "../../components/StarRating/StarRating";
+import { useLanguage } from "../../context/LanguageContext";
+
 import clsx from "clsx";
 
 const MovieDetailsPage = () => {
+  const { t, language } = useLanguage();
   const { movieId } = useParams();
   const navigate = useNavigate();
   const [fullPageMovie, setFullPageMovie] = useState(null);
@@ -19,7 +22,7 @@ const MovieDetailsPage = () => {
 
     const fetchMovieById = async () => {
       try {
-        const data = await requestFullPageMovies(movieId);
+        const data = await requestFullPageMovies(movieId, language);
         setFullPageMovie(data);
       } catch (e) {
         console.error(e.message);
@@ -27,7 +30,7 @@ const MovieDetailsPage = () => {
     };
 
     fetchMovieById();
-  }, [movieId]);
+  }, [movieId, language]);
 
   if (!fullPageMovie) {
     return <Loader />;
@@ -72,7 +75,7 @@ const MovieDetailsPage = () => {
             clsx(css.link, isActive && css.activeLink)
           }
         >
-          Movie Cast
+          {t("MovieCast")}
         </NavLink>
         <NavLink
           to="reviews"
@@ -80,7 +83,7 @@ const MovieDetailsPage = () => {
             clsx(css.link, isActive && css.activeLink)
           }
         >
-          Movie Reviews
+          {t("MovieReviews")}
         </NavLink>
       </div>
       <div>

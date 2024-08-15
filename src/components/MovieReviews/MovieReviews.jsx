@@ -3,11 +3,14 @@ import { useState, useEffect } from "react";
 import MovieReviewsItem from "../MovieReviewsItem/MovieReviewsItem";
 import css from "./MovieReviews.module.css";
 import { useOutletContext } from "react-router-dom";
+import { useLanguage } from "../../context/LanguageContext";
 
 const MovieReviews = () => {
   const [reviews, setReviews] = useState([]);
   const { movieId } = useOutletContext();
   const [reviewsMessage, setReviewsMessage] = useState(false);
+
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (!movieId) return;
@@ -46,7 +49,7 @@ const MovieReviews = () => {
           ))}
         </ul>
       ) : (
-        reviewsMessage && <p>There are no available reviews.</p>
+        reviewsMessage && <p>{t("ReviewsMessage")}</p>
       )}
     </div>
   );

@@ -1,0 +1,17 @@
+{
+  "Trending Today": "Популярно сьогодні",
+  "Movies": "Фільми",
+  "Favorites": "Збережені",
+  "SearchPlaceholder": "Шукати фільм...",
+  "ErrorMessage": "Щось пішло не так.Спробуйте пізніше, будь ласка.",
+  "Favorite Movies": "Збережені фільми",
+  "FavoriteMessage": "Збережені фільми ще не були додані.",
+  "CastMessage": "Немає інформації про акторський склад.",
+  "ReviewsMessage": "Немає інформації про відгуки.",
+  "MovieCast": "Актори",
+  "MovieReviews": "Відгуки",
+  "LanguageSwitcher": {
+    "en": "English",
+    "ua": "Ukrainian"
+  }
+}

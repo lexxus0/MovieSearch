@@ -2,7 +2,11 @@ import css from "./App.module.css";
 import { lazy, Suspense } from "react";
 import { Routes, Route, NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { IoHome } from "react-icons/io5";
 import clsx from "clsx";
+import { useTranslation } from "react-i18next";
+import { useLanguage } from "./context/LanguageContext";
+
 import {
   requestTrendingMovies,
   requestSearchedMovies,
@@ -25,12 +29,14 @@ function App() {
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [searchValue, setSearchValue] = useState("");
 
+  const { t, changeLanguage, language } = useLanguage();
+
   useEffect(() => {
     if (!searchValue) return;
 
     const fetchMoviesBySearchQuery = async () => {
       try {
-        const data = await requestSearchedMovies(searchValue);
+        const data = await requestSearchedMovies(searchValue, language);
         setFilteredMovies(data.results);
       } catch (err) {
         console.error(err.message);
@@ -38,7 +44,7 @@ function App() {
     };
 
     fetchMoviesBySearchQuery();
-  }, [searchValue]);
+  }, [searchValue, language]);
 
   const onSearch = (searchedValue) => {
     setSearchValue(searchedValue);
@@ -47,7 +53,7 @@ function App() {
   useEffect(() => {
     const fetchTrendingData = async () => {
       try {
-        const data = await requestTrendingMovies();
+        const data = await requestTrendingMovies(language);
         setTrendingMovies(data.results);
       } catch (e) {
         console.log(e.message);
@@ -55,7 +61,7 @@ function App() {
     };
 
     fetchTrendingData();
-  }, []);
+  }, [language]);
 
   return (
     <Suspense fallback={<Loader />}>
@@ -67,7 +73,7 @@ function App() {
             }
             to="/"
           >
-            Home
+            <IoHome />
           </NavLink>
           <NavLink
             className={({ isActive }) =>
@@ -75,7 +81,7 @@ function App() {
             }
             to="/movies"
           >
-            Movies
+            {t("Movies")}
           </NavLink>
           <NavLink
             className={({ isActive }) =>
@@ -83,9 +89,11 @@ function App() {
             }
             to="/favorites"
           >
-            Favorites
+            {t("Favorites")}
           </NavLink>
           <ModeSwitch />
+          <button onClick={() => changeLanguage("en")}>English</button>
+          <button onClick={() => changeLanguage("ua")}>Українська</button>
         </nav>
       </header>
       <main>
