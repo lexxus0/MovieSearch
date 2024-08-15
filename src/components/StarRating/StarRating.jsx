@@ -1,6 +1,5 @@
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import css from "./StarRating.module.css";
-import { useState } from "react";
 
 const getStarRating = (rating) => {
   const totalStars = Math.floor(rating / 2);

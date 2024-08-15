@@ -7,12 +7,11 @@ const languageMapping = {
 };
 
 // trending movies
-export const requestTrendingMovies = async (language) => {
-  console.log(language);
+export const requestTrendingMovies = async (language, page = 1) => {
   const languageCode = languageMapping[language] || "en-US";
   const options = {
     method: "GET",
-    url: `https://api.themoviedb.org/3/trending/movie/day?language=${languageCode}`,
+    url: `https://api.themoviedb.org/3/trending/movie/day?language=${languageCode}&page=${page}`,
     headers: {
       accept: "application/json",
       Authorization: `Bearer ${ACCESS_TOKEN}`,
@@ -20,7 +19,6 @@ export const requestTrendingMovies = async (language) => {
   };
 
   const { data } = await axios.request(options);
-  console.log(data);
 
   return data;
 };
@@ -32,7 +30,7 @@ export const requestFullPageMovies = async (movieId, language) => {
     method: "GET",
     url: `https://api.themoviedb.org/3/movie/${movieId}?language=${languageCode}`,
     headers: {
-      accept: "application.json",
+      accept: "application/json",
       Authorization: `Bearer ${ACCESS_TOKEN}`,
     },
   });
@@ -68,7 +66,7 @@ export const requestMovieCast = async (movieId, language) => {
     url: `https://api.themoviedb.org/3/movie/${movieId}/credits`,
     params: { language: languageCode },
     headers: {
-      accept: "application.json",
+      accept: "application/json",
       Authorization: `Bearer ${ACCESS_TOKEN}`,
     },
   });
@@ -76,14 +74,64 @@ export const requestMovieCast = async (movieId, language) => {
 };
 
 //movie reviews
-export const requestMovieReviews = async (movieId) => {
+export const requestMovieReviews = async (movieId, language) => {
+  const languageCode = languageMapping[language] || "en-US";
+
   const { data } = await axios.request({
     method: "GET",
-    url: `https://api.themoviedb.org/3/movie/${movieId}/reviews?language=en-US&page=1`,
+    url: `https://api.themoviedb.org/3/movie/${movieId}/reviews?language=${languageCode}&page=1`,
     headers: {
-      accept: "application.json",
+      accept: "application/json",
       Authorization: `Bearer ${ACCESS_TOKEN}`,
     },
   });
   return data;
+};
+
+//genres
+
+export const requestMoviesByGenres = async (
+  query,
+  genreId,
+  language,
+  page = 1
+) => {
+  const languageCode = languageMapping[language] || "en-US";
+
+  const { data } = await axios.get(
+    "https://api.themoviedb.org/3/discover/movie",
+    {
+      params: {
+        with_genres: genreId,
+        page: page,
+        language: languageCode,
+        query: query,
+      },
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+      },
+    }
+  );
+
+  return data;
+};
+
+export const requestGenres = async (language) => {
+  const languageCode = languageMapping[language] || "en-US";
+
+  const { data } = await axios.get(
+    "https://api.themoviedb.org/3/genre/movie/list",
+    {
+      params: {
+        language: languageCode,
+      },
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+      },
+    }
+  );
+
+  return data.genres;
 };

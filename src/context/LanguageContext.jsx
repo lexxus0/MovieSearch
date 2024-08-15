@@ -1,6 +1,4 @@
-// src/context/LanguageContext.js
-import React, { createContext, useState, useEffect, useContext } from "react";
-import i18n from "i18next";
+import { createContext, useState, useEffect, useContext } from "react";
 import { useTranslation } from "react-i18next";
 
 const LanguageContext = createContext();

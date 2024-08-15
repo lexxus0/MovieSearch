@@ -1,6 +1,8 @@
 import css from "./MovieCastItem.module.css";
+import { useLanguage } from "../../context/LanguageContext";
 
 const MovieCastItem = ({ realName, profile, character }) => {
+  const { t } = useLanguage();
   const defaultProfileImg =
     "https://dummyimage.com/80x120/cdcdcd/000.jpg&text=No+Image";
 
@@ -17,7 +19,9 @@ const MovieCastItem = ({ realName, profile, character }) => {
       />
       <div className={css.castDetails}>
         <span className={css.realName}>{realName}</span>
-        <span className={css.character}>Character: {character}</span>
+        <span className={css.character}>
+          {t("Character")}: {character}
+        </span>
       </div>
     </div>
   );

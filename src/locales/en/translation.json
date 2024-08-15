@@ -10,6 +10,12 @@
   "ReviewsMessage": "There are no available reviews.",
   "MovieCast": "Movie Cast",
   "MovieReviews": "MovieReviews",
+  "Character": "Character",
+  "Rating": "Rating",
+  "Genres": "Genres",
+  "SelectGenre": "Select Genre",
+  "AllGenres": "All genres",
+  "SearchBy": "Search the movies by name or use the filters.",
   "LanguageSwitcher": {
     "en": "English",
     "ua": "Ukrainian"

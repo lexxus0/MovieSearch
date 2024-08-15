@@ -10,6 +10,12 @@
   "ReviewsMessage": "Немає інформації про відгуки.",
   "MovieCast": "Актори",
   "MovieReviews": "Відгуки",
+  "Character": "Персонаж",
+  "Rating": "Рейтинг",
+  "Genres": "Жанри",
+  "SelectGenre": "Обрати жанр",
+  "AllGenres": "Всі жанри",
+  "SearchBy": "Виконай пошук за назвою фільму або використовуй фільтри.",
   "LanguageSwitcher": {
     "en": "English",
     "ua": "Ukrainian"

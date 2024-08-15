@@ -1,4 +1,3 @@
-import React from "react";
 import css from "./MovieListItem.module.css";
 import StarRating from "../../components/StarRating/StarRating";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";

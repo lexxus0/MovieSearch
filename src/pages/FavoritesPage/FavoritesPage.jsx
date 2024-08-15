@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import MovieListItem from "../../components/MovieListItem/MovieListItem";
 import useFavorites from "../../services/useFavorites";

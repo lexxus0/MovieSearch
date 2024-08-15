@@ -12,7 +12,7 @@ import clsx from "clsx";
 const MovieDetailsPage = () => {
   const { t, language } = useLanguage();
   const { movieId } = useParams();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [fullPageMovie, setFullPageMovie] = useState(null);
 
   const defImg = "https://dummyimage.com/200x300/cdcdcd/000.jpg&text=No+poster";
@@ -60,9 +60,9 @@ const MovieDetailsPage = () => {
             {fullPageMovie.title} ({releaseYear})
           </h2>
           <p className={css.movieOverview}>{fullPageMovie.overview}</p>
-          <h3 className={css.movieRating}>Rating:</h3>
+          <h3 className={css.movieRating}>{t("Rating")}:</h3>
           <StarRating rating={fullPageMovie.vote_average} />
-          <h3 className={css.movieGenres}>Genres:</h3>
+          <h3 className={css.movieGenres}>{t("Genres")}:</h3>
           <p className={css.movieGenresList}>
             {fullPageMovie.genres.map((genre) => genre.name).join(", ")}
           </p>

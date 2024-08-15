@@ -1,10 +1,7 @@
-import { useNavigate } from "react-router-dom";
 import css from "./NotFoundPage.module.css";
 import GoBackBtn from "../../components/GoBackBtn/GoBackBtn";
 
 const NotFoundPage = () => {
-  const navigate = useNavigate();
-
   return (
     <div>
       <GoBackBtn />

@@ -10,14 +10,14 @@ const MovieReviews = () => {
   const { movieId } = useOutletContext();
   const [reviewsMessage, setReviewsMessage] = useState(false);
 
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   useEffect(() => {
     if (!movieId) return;
 
     const fetchMovieReviews = async () => {
       try {
-        const data = await requestMovieReviews(movieId);
+        const data = await requestMovieReviews(movieId, language);
         const reviewsData = Array.isArray(data.results) ? data.results : [];
         setReviews(reviewsData);
         if (reviewsData.length === 0) {
@@ -32,7 +32,7 @@ const MovieReviews = () => {
     };
 
     fetchMovieReviews();
-  }, [movieId]);
+  }, [movieId, language]);
 
   return (
     <div>
