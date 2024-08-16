@@ -3,15 +3,3 @@
   align-items: center;
   font-size: 1.5rem;
 }
-
-.filledStar {
-  color: gold;
-}
-
-.halfStar {
-  color: gold;
-}
-
-.emptyStar {
-  color: #dcdcdc;
-}

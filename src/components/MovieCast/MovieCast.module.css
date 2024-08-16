@@ -14,6 +14,7 @@
   flex-direction: column;
   align-items: center;
   padding: 1rem;
+  margin-top: 5px;
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #fff;
@@ -27,4 +28,14 @@
 .castListItem:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .castListItem {
+  background-color: inherit;
+  box-shadow: 0 4px 8px rgba(167, 1, 1, 0.6);
+  border: 1px solid red;
+}
+
+[data-theme="dark"] .castListItem:hover {
+  box-shadow: 0 8px 16px rgba(10, 207, 0, 0.2);
 }

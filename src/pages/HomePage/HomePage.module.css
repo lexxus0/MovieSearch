@@ -4,3 +4,7 @@
   margin-bottom: 20px;
   color: #333;
 }
+
+[data-theme="dark"] .mainH {
+  color: #debcbc;
+}

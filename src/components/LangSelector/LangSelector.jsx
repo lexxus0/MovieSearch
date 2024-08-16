@@ -6,30 +6,99 @@ import css from "./LangSelector.module.css";
 import { GB, UA } from "country-flag-icons/react/3x2";
 
 const customStyles = {
-  control: (provided) => ({
+  control: (provided, state) => ({
     ...provided,
     minWidth: 100,
     height: 36,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: state.selectProps.menuIsOpen
+      ? state.selectProps.theme === "dark"
+        ? "rgba(255, 255, 255, 0.1)"
+        : "rgba(0, 0, 0, 0.1)"
+      : state.selectProps.theme === "dark"
+      ? "rgba(255, 255, 255, 0.05)"
+      : "rgba(0, 0, 0, 0.05)",
+    borderColor: state.isFocused
+      ? state.selectProps.theme === "dark"
+        ? "rgba(255, 255, 255, 0.3)"
+        : "rgba(0, 0, 0, 0.3)"
+      : state.selectProps.theme === "dark"
+      ? "rgba(255, 255, 255, 0.2)"
+      : "rgba(0, 0, 0, 0.2)",
+    color: state.selectProps.theme === "dark" ? "#ffffff" : "#000000",
+    boxShadow: "none",
+    "&:hover": {
+      borderColor:
+        state.selectProps.theme === "dark"
+          ? "rgba(255, 255, 255, 0.3)"
+          : "rgba(0, 0, 0, 0.3)",
+    },
   }),
-  singleValue: (provided) => ({
+  singleValue: (provided, state) => ({
     ...provided,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    color: state.selectProps.theme === "dark" ? "#ffffff" : "#000000",
   }),
-  option: (provided) => ({
+  option: (provided, state) => ({
     ...provided,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     padding: 5,
+    backgroundColor: state.isFocused
+      ? state.selectProps.theme === "dark"
+        ? "rgba(255, 255, 255, 0.1)"
+        : "rgba(0, 0, 0, 0.1)"
+      : "transparent",
+    color:
+      state.isSelected || state.selectProps.theme === "dark"
+        ? "#ffffff"
+        : "#000000",
+    "&:hover": {
+      backgroundColor:
+        state.selectProps.theme === "dark"
+          ? "rgba(255, 255, 255, 0.2)"
+          : "rgba(0, 0, 0, 0.2)",
+    },
   }),
-  menu: (provided) => ({
+  menu: (provided, state) => ({
     ...provided,
     zIndex: 5,
+    backgroundColor: state.selectProps.theme === "dark" ? "#333" : "#fff",
+    color: state.selectProps.theme === "dark" ? "#ffffff" : "#000000",
+    boxShadow:
+      state.selectProps.theme === "dark"
+        ? "0 4px 8px rgba(0, 0, 0, 0.3)"
+        : "0 4px 8px rgba(0, 0, 0, 0.1)",
+  }),
+  menuList: (provided) => ({
+    ...provided,
+    padding: 0,
+  }),
+  placeholder: (provided, state) => ({
+    ...provided,
+    color:
+      state.selectProps.theme === "dark"
+        ? "rgba(255, 255, 255, 0.5)"
+        : "rgba(0, 0, 0, 0.5)",
+  }),
+  dropdownIndicator: (provided, state) => ({
+    ...provided,
+    color:
+      state.selectProps.theme === "dark"
+        ? "rgba(255, 255, 255, 0.5)"
+        : "rgba(0, 0, 0, 0.5)",
+  }),
+  indicatorSeparator: (provided, state) => ({
+    ...provided,
+    backgroundColor:
+      state.selectProps.theme === "dark"
+        ? "rgba(255, 255, 255, 0.2)"
+        : "rgba(0, 0, 0, 0.2)",
   }),
 };
 

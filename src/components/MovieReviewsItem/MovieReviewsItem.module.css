@@ -7,6 +7,12 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+[data-theme="dark"] .reviewItem {
+  border: 1px solid red;
+  background-color: inherit;
+  box-shadow: 0 8px 16px rgba(10, 207, 0, 0.2);
+}
+
 .reviewItem:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -19,9 +25,20 @@
   margin-bottom: 0.5rem;
 }
 
+[data-theme="dark"] .author {
+  color: #8f7777;
+}
+
+[data-theme="dark"] .content {
+  color: #8f7777;
+}
+
+[data-theme="dark"] .date {
+  color: #8f7777;
+}
 .content {
   font-size: 1rem;
-  color: #555;
+  color: #000000;
   margin-bottom: 0.5rem;
 }
 .date {

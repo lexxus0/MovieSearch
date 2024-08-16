@@ -38,13 +38,13 @@ export const requestFullPageMovies = async (movieId, language) => {
 };
 
 // movie by search query
-export const requestSearchedMovies = async (searchedValue, language) => {
+export const requestSearchedMovies = async (searchValue, language) => {
   const languageCode = languageMapping[language] || "en-US";
   const { data } = await axios.request({
     method: "GET",
     url: "https://api.themoviedb.org/3/search/movie",
     params: {
-      query: searchedValue,
+      query: searchValue,
       include_adult: false,
       language: languageCode,
       page: 1,
@@ -74,12 +74,10 @@ export const requestMovieCast = async (movieId, language) => {
 };
 
 //movie reviews
-export const requestMovieReviews = async (movieId, language) => {
-  const languageCode = languageMapping[language] || "en-US";
-
+export const requestMovieReviews = async (movieId) => {
   const { data } = await axios.request({
     method: "GET",
-    url: `https://api.themoviedb.org/3/movie/${movieId}/reviews?language=${languageCode}&page=1`,
+    url: `https://api.themoviedb.org/3/movie/${movieId}/reviews?language=en-US&page=1`,
     headers: {
       accept: "application/json",
       Authorization: `Bearer ${ACCESS_TOKEN}`,
@@ -89,13 +87,7 @@ export const requestMovieReviews = async (movieId, language) => {
 };
 
 //genres
-
-export const requestMoviesByGenres = async (
-  query,
-  genreId,
-  language,
-  page = 1
-) => {
+export const requestMoviesByGenres = async (genreId, language, page = 1) => {
   const languageCode = languageMapping[language] || "en-US";
 
   const { data } = await axios.get(
@@ -105,7 +97,6 @@ export const requestMoviesByGenres = async (
         with_genres: genreId,
         page: page,
         language: languageCode,
-        query: query,
       },
       headers: {
         Accept: "application/json",
@@ -117,6 +108,7 @@ export const requestMoviesByGenres = async (
   return data;
 };
 
+//list of genres
 export const requestGenres = async (language) => {
   const languageCode = languageMapping[language] || "en-US";
 

@@ -1,31 +1,27 @@
 .goBackButton {
   position: absolute;
-  left: 50px;
+  width: 40px;
+  height: 40px;
+  left: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem 1rem;
-  color: #0b0769;
+  color: #000;
   border: none;
-  border-radius: 8px;
   cursor: pointer;
   font-size: 1.5rem;
-  transition: background-color 0.3s ease, transform 0.3s ease,
-    box-shadow 0.3s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  background-color: inherit;
 }
 
 .goBackButton:hover {
-  background-color: #072647;
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .goBackButton:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(38, 143, 255, 0.5);
 }
 
-.goBackIcon {
-  font-size: 1.5rem;
+[data-theme="dark"] .goBackButton {
+  color: #fff;
 }

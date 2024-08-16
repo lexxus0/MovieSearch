@@ -1,10 +1,17 @@
 import css from "./App.module.css";
 import { lazy, Suspense, useEffect, useState } from "react";
-import { Routes, Route, NavLink, useNavigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  NavLink,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import { IoHome } from "react-icons/io5";
 import clsx from "clsx";
 import { useLanguage } from "./context/LanguageContext";
 import LangSelector from "./components/LangSelector/LangSelector";
+import { useSearchParams } from "react-router-dom";
 
 import {
   requestTrendingMovies,
@@ -25,14 +32,13 @@ import ModeSwitch from "./components/ModeSwitch/ModeSwitch";
 
 const App = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);
-  const [filteredMovies, setFilteredMovies] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchValue, setSearchValue] = useState("");
 
   const { t, language } = useLanguage();
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!searchValue) return;
@@ -50,6 +56,9 @@ const App = () => {
   }, [searchValue, language]);
 
   const onSearch = (searchedValue) => {
+    setSearchParams({
+      query: searchedValue,
+    });
     setSearchValue(searchedValue);
   };
 
@@ -58,7 +67,7 @@ const App = () => {
       setIsLoadingMore(true);
       const nextPage = page + 1;
       setPage(nextPage);
-      navigate(`/page/${nextPage}`);
+      // navigate(`/page/${nextPage}`);
     }
   };
 
@@ -106,10 +115,13 @@ const App = () => {
           >
             {t("Favorites")}
           </NavLink>
-          <ModeSwitch />
-          <LangSelector />
+          <div className={css.rightSection}>
+            <ModeSwitch />
+            <LangSelector />
+          </div>
         </nav>
       </header>
+
       <main>
         <Routes>
           <Route
@@ -126,12 +138,7 @@ const App = () => {
           <Route
             path="/movies"
             element={
-              <MoviesPage
-                onSearch={onSearch}
-                filteredMovies={filteredMovies}
-                searchValue={searchValue}
-                setFilteredMovies={setFilteredMovies}
-              />
+              <MoviesPage onSearch={onSearch} searchValue={searchValue} />
             }
           />
           <Route path="/favorites" element={<FavoritesPage />} />
@@ -139,17 +146,7 @@ const App = () => {
             <Route path="cast" element={<MovieCast />} />
             <Route path="reviews" element={<MovieReviews />} />
           </Route>
-          <Route
-            path="/page/:pageNumber"
-            element={
-              <HomePage
-                trendingMovies={trendingMovies}
-                loadMoreMovies={loadMoreMovies}
-                isLoadingMore={isLoadingMore}
-                hasMore={page < totalPages}
-              />
-            }
-          />
+
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
@@ -158,3 +155,5 @@ const App = () => {
 };
 
 export default App;
+
+///404 go back

@@ -21,7 +21,7 @@ const MovieList = ({
 
   if (filteredMovies.length > 0) {
     movies = filteredMovies;
-  } else if (location.pathname !== "/movies" && trendingMovies.length > 0) {
+  } else if (trendingMovies.length > 0) {
     movies = trendingMovies;
   } else if (genredMovies.length > 0) {
     movies = genredMovies;
@@ -41,15 +41,16 @@ const MovieList = ({
     }
   };
 
+  const uniqueMovies = movies.filter(
+    (movie, index, self) => index === self.findIndex((m) => m.id === movie.id)
+  );
+
   return (
     <>
       <ul className={css.moviesList}>
-        {movies.map((movie) => (
+        {uniqueMovies.map((movie) => (
           <li className={css.moviesListItem} key={movie.id}>
-            <Link
-              to={`/movies/${movie.id}`}
-              state={{ from: location.pathname }}
-            >
+            <Link to={`/movies/${movie.id}`} state={{ from: location }}>
               <MovieListItem
                 title={movie.title}
                 averageVote={movie.vote_average}

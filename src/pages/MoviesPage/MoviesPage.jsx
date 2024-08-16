@@ -1,24 +1,71 @@
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import SearchMovie from "../../components/SearchMovie/SearchMovie";
 import MovieList from "../../components/MovieList/MovieList";
 import GenreSelector from "../../components/GenreSelector/GenreSelector";
 import {
   requestMoviesByGenres,
   requestGenres,
+  requestSearchedMovies,
 } from "../../services/apiService";
 import { useLanguage } from "../../context/LanguageContext";
 
-const MoviesPage = ({ onSearch, filteredMovies, setFilteredMovies }) => {
+const MoviesPage = () => {
+  const [filteredMovies, setFilteredMovies] = useState([]);
   const [genredMovies, setGenredMovies] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedGenre, setSelectedGenre] = useState("-");
   const [genres, setGenres] = useState([]);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-
+  const [searchParams, setSearchParams] = useSearchParams();
   const { language } = useLanguage();
+
+  const query = searchParams.get("query") || "";
+  const genreId = searchParams.get("genre") || "-";
+  const page = searchParams.get("page") || 1;
+
+  useEffect(() => {
+    const fetchSearchedMovies = async () => {
+      if (query) {
+        setIsLoading(true);
+        try {
+          setFilteredMovies([]);
+          const data = await requestSearchedMovies(query, language, page);
+          setFilteredMovies((prevMovies) =>
+            page === 1 ? data.results : [...prevMovies, ...data.results]
+          );
+          setHasMore(page < data.total_pages);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    fetchSearchedMovies();
+  }, [query, language, page]);
+
+  useEffect(() => {
+    const fetchMoviesByGenre = async () => {
+      if (genreId !== "-") {
+        setIsLoading(true);
+        try {
+          setGenredMovies([]);
+          const data = await requestMoviesByGenres(genreId, language, page);
+          setGenredMovies((prevMovies) =>
+            page === 1 ? data.results : [...prevMovies, ...data.results]
+          );
+          setHasMore(page < data.total_pages);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    fetchMoviesByGenre();
+  }, [genreId, language, page]);
 
   useEffect(() => {
     const fetchGenres = async () => {
@@ -26,49 +73,27 @@ const MoviesPage = ({ onSearch, filteredMovies, setFilteredMovies }) => {
         const genreData = await requestGenres(language);
         setGenres(genreData);
       } catch (error) {
-        console.error("Failed to fetch genres:", error);
+        console.error(error);
       }
     };
 
     fetchGenres();
   }, [language]);
 
-  useEffect(() => {
-    const fetchMovies = async () => {
-      if (selectedGenre === "-") return;
-
-      setIsLoading(true);
-      try {
-        const moviesData = await requestMoviesByGenres(
-          searchQuery,
-          selectedGenre,
-          language,
-          page
-        );
-        setGenredMovies((prevMovies) => [...moviesData.results]);
-        setTotalPages(moviesData.total_pages);
-        setHasMore(page < moviesData.total_pages);
-        setFilteredMovies([]);
-      } catch (error) {
-        console.error("Failed to fetch movies:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchMovies();
-  }, [searchQuery, selectedGenre, page, language]);
+  const onSearch = (searchedValue) => {
+    setSearchParams({ query: searchedValue, page: 1 });
+    setFilteredMovies([]);
+    setGenredMovies([]);
+  };
 
   const handleGenreChange = (genreId) => {
-    setSelectedGenre(genreId);
+    setSearchParams({ genre: genreId, page: 1 });
     setGenredMovies([]);
-    setPage(1);
+    setFilteredMovies([]);
   };
 
   const loadMoreMovies = () => {
-    if (page < totalPages) {
-      setPage((prevPage) => prevPage + 1);
-    }
+    setSearchParams((prev) => ({ ...prev, page: Number(page) + 1 }));
   };
 
   return (
@@ -76,7 +101,7 @@ const MoviesPage = ({ onSearch, filteredMovies, setFilteredMovies }) => {
       <SearchMovie onSearch={onSearch} />
       <GenreSelector
         genres={genres}
-        selectedGenre={selectedGenre}
+        selectedGenre={genreId}
         onGenreChange={handleGenreChange}
       />
       <MovieList

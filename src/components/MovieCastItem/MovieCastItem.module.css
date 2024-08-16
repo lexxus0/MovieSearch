@@ -27,3 +27,10 @@
   font-size: 0.875rem;
   color: #555;
 }
+
+[data-theme="dark"] .realName {
+  color: #8f7777;
+}
+[data-theme="dark"] .character {
+  color: #8f7777;
+}

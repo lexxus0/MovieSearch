@@ -22,6 +22,10 @@
   transition: border-color 0.3s, box-shadow 0.3s;
 }
 
+[data-theme="dark"] .searchField {
+  background-color: inherit;
+}
+
 .searchField:focus {
   border-color: #007bff;
   box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
@@ -36,6 +40,13 @@
   cursor: pointer;
   font-size: 1.5rem;
   background: none;
+}
+
+[data-theme="dark"] .searchBtn {
+  color: #5b6672;
+}
+[data-theme="dark"] .searchBtn:hover {
+  color: red;
 }
 
 .searchBtn:hover {

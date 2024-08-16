@@ -10,9 +10,7 @@ export const LanguageProvider = ({ children }) => {
   );
 
   useEffect(() => {
-    i18n
-      .changeLanguage(language)
-      .catch((err) => console.error("Error changing language:", err));
+    i18n.changeLanguage(language).catch((err) => console.error(err));
   }, [language]);
 
   const changeLanguage = (lng) => {
@@ -22,7 +20,7 @@ export const LanguageProvider = ({ children }) => {
         localStorage.setItem("language", lng);
         setLanguage(lng);
       })
-      .catch((err) => console.error("Error changing language:", err));
+      .catch((err) => console.error(err));
   };
 
   return (

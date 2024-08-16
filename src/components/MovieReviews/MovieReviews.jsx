@@ -17,7 +17,7 @@ const MovieReviews = () => {
 
     const fetchMovieReviews = async () => {
       try {
-        const data = await requestMovieReviews(movieId, language);
+        const data = await requestMovieReviews(movieId);
         const reviewsData = Array.isArray(data.results) ? data.results : [];
         setReviews(reviewsData);
         if (reviewsData.length === 0) {
@@ -32,7 +32,7 @@ const MovieReviews = () => {
     };
 
     fetchMovieReviews();
-  }, [movieId, language]);
+  }, [movieId]);
 
   return (
     <div>

@@ -1,6 +1,12 @@
-import { useParams, useNavigate, NavLink, Outlet } from "react-router-dom";
+import {
+  useParams,
+  Link,
+  NavLink,
+  Outlet,
+  useLocation,
+} from "react-router-dom";
 import css from "./MovieDetailsPage.module.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { requestFullPageMovies } from "../../services/apiService";
 import Loader from "../../components/Loader/Loader";
 import GoBackBtn from "../../components/GoBackBtn/GoBackBtn";
@@ -12,8 +18,11 @@ import clsx from "clsx";
 const MovieDetailsPage = () => {
   const { t, language } = useLanguage();
   const { movieId } = useParams();
-  // const navigate = useNavigate();
   const [fullPageMovie, setFullPageMovie] = useState(null);
+
+  const location = useLocation();
+
+  const backLinkRef = useRef(location.state?.from ?? "/movies");
 
   const defImg = "https://dummyimage.com/200x300/cdcdcd/000.jpg&text=No+poster";
 
@@ -36,12 +45,21 @@ const MovieDetailsPage = () => {
     return <Loader />;
   }
 
+  const goBack = () => {
+    navigate(location.state?.from || "/movies");
+  };
+
   const releaseDate = fullPageMovie.release_date;
   const releaseYear = releaseDate ? releaseDate.split("-")[0] : "Unknown Year";
 
   return (
     <div className={css.container}>
-      <GoBackBtn />
+      <div>
+        <Link to={backLinkRef.current}>
+          <GoBackBtn onClick={goBack} />
+        </Link>
+      </div>
+
       <div className={css.content}>
         <div className={css.imageSection}>
           <img
