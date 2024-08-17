@@ -15,6 +15,37 @@ const GenreSelector = ({ genres, selectedGenre, onGenreChange }) => {
     label: genre.name,
   }));
 
+  const theme = document.documentElement.getAttribute("data-theme") || "light";
+
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      backgroundColor: theme === "dark" ? "#333" : "#fff",
+      color: theme === "dark" ? "#fff" : "#000",
+      borderColor: theme === "dark" ? "#555" : "#ccc",
+    }),
+    menu: (provided) => ({
+      ...provided,
+      backgroundColor: theme === "dark" ? "#333" : "#fff",
+      color: theme === "dark" ? "#fff" : "#000",
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isFocused
+        ? theme === "dark"
+          ? "#444"
+          : "#eee"
+        : theme === "dark"
+        ? "#333"
+        : "#fff",
+      color: theme === "dark" ? "#fff" : "#000",
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: theme === "dark" ? "#fff" : "#000",
+    }),
+  };
+
   return (
     <div className={css.genreSelector}>
       <VscListFilter onClick={toggleSelect} className={css.filterIcon} />
@@ -30,6 +61,7 @@ const GenreSelector = ({ genres, selectedGenre, onGenreChange }) => {
           options={options}
           placeholder={t("AllGenres")}
           menuIsOpen={true}
+          styles={customStyles}
         />
       )}
     </div>

@@ -4,8 +4,8 @@ import {
   Routes,
   Route,
   NavLink,
-  useNavigate,
   useLocation,
+  useNavigate,
 } from "react-router-dom";
 import { IoHome } from "react-icons/io5";
 import clsx from "clsx";
@@ -13,10 +13,7 @@ import { useLanguage } from "./context/LanguageContext";
 import LangSelector from "./components/LangSelector/LangSelector";
 import { useSearchParams } from "react-router-dom";
 
-import {
-  requestTrendingMovies,
-  requestSearchedMovies,
-} from "./services/apiService";
+import { requestTrendingMovies } from "./services/apiService";
 const HomePage = lazy(() => import("./pages/HomePage/HomePage"));
 const MoviesPage = lazy(() => import("./pages/MoviesPage/MoviesPage"));
 const MovieDetailsPage = lazy(() =>
@@ -36,47 +33,36 @@ const App = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchValue, setSearchValue] = useState("");
+  const [hasMore, setHasMore] = useState(false);
 
   const { t, language } = useLanguage();
 
-  useEffect(() => {
-    if (!searchValue) return;
-
-    const fetchMoviesBySearchQuery = async () => {
-      try {
-        const data = await requestSearchedMovies(searchValue, language);
-        setFilteredMovies(data.results);
-      } catch (err) {
-        console.error(err.message);
-      }
-    };
-
-    fetchMoviesBySearchQuery();
-  }, [searchValue, language]);
-
-  const onSearch = (searchedValue) => {
-    setSearchParams({
-      query: searchedValue,
-    });
-    setSearchValue(searchedValue);
-  };
+  const location = useLocation();
 
   const loadMoreMovies = async () => {
     if (page < totalPages) {
       setIsLoadingMore(true);
       const nextPage = page + 1;
       setPage(nextPage);
-      // navigate(`/page/${nextPage}`);
+
+      setSearchParams({ page: nextPage });
     }
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
+  useEffect(() => {
+    console.log("Current page:", page);
     const fetchTrendingData = async () => {
       try {
         const data = await requestTrendingMovies(language, page);
-        setTrendingMovies(data.results);
+        setTrendingMovies((prevMovies) =>
+          page !== 1 ? data.results : [...prevMovies, ...data.results]
+        );
         setTotalPages(data.total_pages);
+        setHasMore(page < data.total_pages);
       } catch (e) {
         console.log(e.message);
       } finally {
@@ -131,16 +117,11 @@ const App = () => {
                 trendingMovies={trendingMovies}
                 loadMoreMovies={loadMoreMovies}
                 isLoadingMore={isLoadingMore}
-                hasMore={page < totalPages}
+                hasMore={hasMore}
               />
             }
           />
-          <Route
-            path="/movies"
-            element={
-              <MoviesPage onSearch={onSearch} searchValue={searchValue} />
-            }
-          />
+          <Route path="/movies" element={<MoviesPage />} />
           <Route path="/favorites" element={<FavoritesPage />} />
           <Route path="/movies/:movieId/*" element={<MovieDetailsPage />}>
             <Route path="cast" element={<MovieCast />} />

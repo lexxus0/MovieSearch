@@ -23,6 +23,13 @@ const MoviesPage = () => {
   const genreId = searchParams.get("genre") || "-";
   const page = searchParams.get("page") || 1;
 
+  const handlePreviousClick = () => {
+    const currentPage = parseInt(searchParams.get("page"), 10) || 1;
+    if (currentPage > 1) {
+      setSearchParams({ page: currentPage - 1 });
+    }
+  };
+
   useEffect(() => {
     const fetchSearchedMovies = async () => {
       if (query) {
@@ -93,7 +100,10 @@ const MoviesPage = () => {
   };
 
   const loadMoreMovies = () => {
-    setSearchParams((prev) => ({ ...prev, page: Number(page) + 1 }));
+    setSearchParams((prev) => ({
+      ...Object.fromEntries([...prev]),
+      page: Number(page) + 1,
+    }));
   };
 
   return (
@@ -106,6 +116,7 @@ const MoviesPage = () => {
       />
       <MovieList
         filteredMovies={filteredMovies}
+        handlePreviousClick={handlePreviousClick}
         genredMovies={genredMovies}
         loadMoreMovies={loadMoreMovies}
         isLoadingMore={isLoading}

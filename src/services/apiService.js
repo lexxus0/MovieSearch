@@ -38,7 +38,7 @@ export const requestFullPageMovies = async (movieId, language) => {
 };
 
 // movie by search query
-export const requestSearchedMovies = async (searchValue, language) => {
+export const requestSearchedMovies = async (searchValue, language, page) => {
   const languageCode = languageMapping[language] || "en-US";
   const { data } = await axios.request({
     method: "GET",
@@ -47,7 +47,7 @@ export const requestSearchedMovies = async (searchValue, language) => {
       query: searchValue,
       include_adult: false,
       language: languageCode,
-      page: 1,
+      page: page,
     },
     headers: {
       accept: "application/json",
@@ -56,7 +56,6 @@ export const requestSearchedMovies = async (searchValue, language) => {
   });
   return data;
 };
-
 //movie cast
 export const requestMovieCast = async (movieId, language) => {
   const languageCode = languageMapping[language] || "en-US";

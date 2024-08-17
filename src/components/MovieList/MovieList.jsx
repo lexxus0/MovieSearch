@@ -14,8 +14,9 @@ const MovieList = ({
   isLoadingMore,
   hasMore,
 }) => {
-  const location = useLocation();
   const { t } = useLanguage();
+
+  const location = useLocation();
 
   let movies = [];
 

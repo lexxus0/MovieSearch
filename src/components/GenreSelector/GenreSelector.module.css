@@ -19,10 +19,6 @@
   left: 1100px;
 }
 
-[data-theme="dark"] .genreSelect {
-  color: black;
-}
-
 .genreSelector {
   position: relative;
 }

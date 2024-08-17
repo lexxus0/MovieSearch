@@ -24,6 +24,7 @@
 
 [data-theme="dark"] .searchField {
   background-color: inherit;
+  color: rgb(169, 174, 179);
 }
 
 .searchField:focus {
