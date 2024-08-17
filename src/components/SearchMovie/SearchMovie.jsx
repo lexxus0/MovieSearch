@@ -1,5 +1,3 @@
-// TOAST
-
 import { Field, Formik, Form } from "formik";
 import css from "./SearchMovie.module.css";
 import { MdSearch } from "react-icons/md";

@@ -9,14 +9,14 @@ const LoadMoreBtn = ({ onClick, disabled }) => {
 
   return (
     <div className={css.container}>
-      <button type="button" className={css.button} onClick={handleGoBack}>
-        <GrFormPrevious />
+      <button type="button" className={css.button1} onClick={handleGoBack}>
+        <GrFormPrevious className={css.grFormPrevious} />
       </button>
       <button
         type="button"
         disabled={disabled}
         onClick={onClick}
-        className={css.button}
+        className={css.button2}
       >
         <GrFormNext className={css.grFormNext} />
       </button>

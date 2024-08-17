@@ -25,6 +25,8 @@
 
 .movieImg {
   width: 400px;
+  margin-top: 60px;
+  margin-right: 120px;
   height: auto;
   max-height: 70vh;
   border-radius: 8px;
@@ -35,7 +37,8 @@
   font-size: 1rem;
   font-style: italic;
   color: #777;
-  margin: 1rem 0;
+  margin-top: 10px;
+  margin-right: 110px;
   text-align: center;
 }
 

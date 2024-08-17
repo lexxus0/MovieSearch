@@ -51,15 +51,30 @@ const App = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [location]);
+  }, [page]);
 
   useEffect(() => {
-    console.log("Current page:", page);
+    const params = new URLSearchParams(location.search);
+    const currentPage = parseInt(params.get("page") || "1", 10);
+    setPage(currentPage);
+  }, [location.search]);
+
+  useEffect(() => {
+    const handlePageChange = () => {
+      const params = new URLSearchParams(location.search);
+      const currentPage = parseInt(params.get("page") || "1", 10);
+      setPage(currentPage);
+    };
+
+    handlePageChange();
+  }, [location.search]);
+
+  useEffect(() => {
     const fetchTrendingData = async () => {
       try {
         const data = await requestTrendingMovies(language, page);
         setTrendingMovies((prevMovies) =>
-          page !== 1 ? data.results : [...prevMovies, ...data.results]
+          page !== null ? data.results : [...prevMovies, ...data.results]
         );
         setTotalPages(data.total_pages);
         setHasMore(page < data.total_pages);
@@ -136,5 +151,3 @@ const App = () => {
 };
 
 export default App;
-
-///404 go back

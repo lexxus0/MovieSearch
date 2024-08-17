@@ -2,7 +2,7 @@ import css from "./GenreSelector.module.css";
 import { useLanguage } from "../../context/LanguageContext";
 import Select from "react-select";
 import { VscListFilter } from "react-icons/vsc";
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 
 const GenreSelector = ({ genres, selectedGenre, onGenreChange }) => {
   const { t } = useLanguage();
@@ -15,7 +15,22 @@ const GenreSelector = ({ genres, selectedGenre, onGenreChange }) => {
     label: genre.name,
   }));
 
+  const selectRef = useRef(null);
   const theme = document.documentElement.getAttribute("data-theme") || "light";
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (selectRef.current && !selectRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const customStyles = {
     control: (provided) => ({
@@ -47,7 +62,7 @@ const GenreSelector = ({ genres, selectedGenre, onGenreChange }) => {
   };
 
   return (
-    <div className={css.genreSelector}>
+    <div className={css.genreSelector} ref={selectRef}>
       <VscListFilter onClick={toggleSelect} className={css.filterIcon} />
       {isOpen && (
         <Select

@@ -3,22 +3,45 @@
   justify-content: center;
   align-items: center;
   margin-top: 30px;
+  gap: 20px;
 }
 
-.button {
+.button1 {
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: transparent;
   color: white;
-  border: 1px solid blue;
+  border: 1px solid rgb(232, 148, 73);
   border-radius: 50%;
   padding: 20px;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s;
+  box-shadow: 0 4px 8px rgba(152, 12, 12, 0.5);
   outline: none;
+}
+.button2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: white;
+  border: 1px solid rgb(232, 148, 73);
+  border-radius: 50%;
+  padding: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 8px rgba(152, 12, 12, 0.5);
+  outline: none;
+}
+
+.button2:hover {
+  transform: translateX(10px);
+}
+.button1:hover {
+  transform: translateX(-10px);
 }
 
 .button:disabled {
@@ -29,6 +52,18 @@
 }
 
 .grFormNext {
-  font-size: 40px;
+  font-size: 30px;
+  color: blue;
+}
+
+.grFormPrevious {
+  font-size: 30px;
+  color: blue;
+}
+
+[data-theme="dark"] .grFormPrevious {
+  color: red;
+}
+[data-theme="dark"] .grFormNext {
   color: red;
 }
