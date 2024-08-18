@@ -25,7 +25,7 @@
 
 .movieImg {
   width: 400px;
-  margin-top: 60px;
+  margin-top: 30px;
   margin-right: 120px;
   height: auto;
   max-height: 70vh;
@@ -62,6 +62,9 @@
   font-weight: bold;
   margin: 0.5rem 0;
   color: #333;
+}
+[data-theme="dark"] .watchTrailer {
+  color: rgb(169, 174, 179);
 }
 
 .movieOverview {
@@ -138,4 +141,19 @@
   color: white;
   transform: translateY(-2px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.trailersWrapper {
+  margin-top: 5px;
+}
+
+.trailers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.trailers iframe {
+  max-width: 100%;
+  height: 310px;
 }

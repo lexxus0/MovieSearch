@@ -1,5 +1,8 @@
-const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
 import axios from "axios";
+
+const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
+
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 const languageMapping = {
   en: "en-US",
@@ -125,4 +128,13 @@ export const requestGenres = async (language) => {
   );
 
   return data.genres;
+};
+
+//request trailers
+export const requestMovieTrailers = async (movieTItle, releaseYear) => {
+  const query = `${movieTItle} ${releaseYear} official trailer`;
+  const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${query}&key=${API_KEY}`;
+
+  const { data } = await axios.get(url);
+  return data.items[0];
 };

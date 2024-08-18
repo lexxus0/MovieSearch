@@ -7,7 +7,10 @@ import {
 } from "react-router-dom";
 import css from "./MovieDetailsPage.module.css";
 import { useState, useEffect, useRef } from "react";
-import { requestFullPageMovies } from "../../services/apiService";
+import {
+  requestFullPageMovies,
+  requestMovieTrailers,
+} from "../../services/apiService";
 import Loader from "../../components/Loader/Loader";
 import GoBackBtn from "../../components/GoBackBtn/GoBackBtn";
 import StarRating from "../../components/StarRating/StarRating";
@@ -19,6 +22,8 @@ const MovieDetailsPage = () => {
   const { t, language } = useLanguage();
   const { movieId } = useParams();
   const [fullPageMovie, setFullPageMovie] = useState(null);
+  const [trailer, setTrailer] = useState(null);
+  const [cachedTrailers, setCachedTrailers] = useState({});
 
   const location = useLocation();
 
@@ -27,26 +32,44 @@ const MovieDetailsPage = () => {
   const defImg = "https://dummyimage.com/200x300/cdcdcd/000.jpg&text=No+poster";
 
   useEffect(() => {
-    if (!movieId) return;
+    const fetchMovieData = async () => {
+      if (!movieId) return;
 
-    const fetchMovieById = async () => {
       try {
         const data = await requestFullPageMovies(movieId, language);
         setFullPageMovie(data);
+
+        const releaseDate = data.release_date;
+        const releaseYear = releaseDate
+          ? releaseDate.split("-")[0]
+          : "Unknown Year";
+
+        // Check if trailers are cached
+        if (cachedTrailers[movieId]) {
+          setTrailer(cachedTrailers[movieId]);
+        } else {
+          // Fetch trailers
+          const trailerData = await requestMovieTrailers(
+            data.title,
+            releaseYear
+          );
+          setTrailer(trailerData);
+          setCachedTrailers((prev) => ({ ...prev, [movieId]: trailerData }));
+        }
       } catch (e) {
         console.error(e.message);
       }
     };
 
-    fetchMovieById();
-  }, [movieId, language]);
+    fetchMovieData();
+  }, [movieId, language, cachedTrailers]);
 
   if (!fullPageMovie) {
     return <Loader />;
   }
 
   const goBack = () => {
-    navigate(location.state?.from || "/movies");
+    navigate(-1);
   };
 
   const releaseDate = fullPageMovie.release_date;
@@ -84,6 +107,23 @@ const MovieDetailsPage = () => {
           <p className={css.movieGenresList}>
             {fullPageMovie.genres.map((genre) => genre.name).join(", ")}
           </p>
+
+          <div className={css.trailersWrapper}>
+            <h3 className={css.watchTrailer}>{t("WatchTrailer")}</h3>
+            <div className={css.trailers}>
+              {trailer && (
+                <iframe
+                  key={trailer.id.videoId}
+                  width="560"
+                  height="315"
+                  src={`https://www.youtube.com/embed/${trailer.id.videoId}`}
+                  title={trailer.snippet.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              )}
+            </div>
+          </div>
         </div>
       </div>
       <div className={css.navLinks}>
