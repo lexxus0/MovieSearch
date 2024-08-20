@@ -34,9 +34,8 @@
 }
 
 [data-theme="dark"] .favBtn {
-  color: #96680c;
+  color: rgba(255, 255, 255, 0.7);
 }
-
-[data-theme="dark"] .img {
+x` [data-theme="dark"] .img {
   filter: brightness(0.8);
 }
