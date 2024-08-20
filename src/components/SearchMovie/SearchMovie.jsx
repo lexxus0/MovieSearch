@@ -2,8 +2,9 @@ import { Field, Formik, Form } from "formik";
 import css from "./SearchMovie.module.css";
 import { MdSearch } from "react-icons/md";
 import { useLanguage } from "../../context/LanguageContext";
+import GenreSelector from "../GenreSelector/GenreSelector";
 
-const SearchMovie = ({ onSearch }) => {
+const SearchMovie = ({ onSearch, genres, selectedGenre, onGenreChange }) => {
   const { t } = useLanguage();
 
   return (
@@ -36,6 +37,11 @@ const SearchMovie = ({ onSearch }) => {
           </button>
         </Form>
       </Formik>
+      <GenreSelector
+        genres={genres}
+        selectedGenre={selectedGenre}
+        onGenreChange={onGenreChange}
+      />
     </div>
   );
 };

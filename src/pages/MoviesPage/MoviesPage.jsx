@@ -108,12 +108,13 @@ const MoviesPage = () => {
 
   return (
     <>
-      <SearchMovie onSearch={onSearch} />
-      <GenreSelector
+      <SearchMovie
+        onSearch={onSearch}
         genres={genres}
         selectedGenre={genreId}
         onGenreChange={handleGenreChange}
       />
+
       <MovieList
         filteredMovies={filteredMovies}
         handlePreviousClick={handlePreviousClick}
